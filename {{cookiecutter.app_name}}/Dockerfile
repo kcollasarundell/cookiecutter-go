@@ -14,7 +14,7 @@ WORKDIR /go/src/github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_n
 # Create appuser
 RUN adduser -D -g '' {{cookiecutter.app_name}}
 RUN apk --update add ca-certificates
-RUN make build-alpine
+RUN make build
 
 # Final Stage
 FROM {{cookiecutter.docker_image}}

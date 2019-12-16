@@ -7,11 +7,7 @@ GIT_COMMIT=$(shell git rev-parse HEAD)
 GIT_DIRTY=$(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
 BUILD_DATE=$(shell date '+%Y-%m-%d-%H:%M:%S')
 
-{% if cookiecutter.docker_registry == "docker" %}
-IMAGE_NAME := "{{cookiecutter.docker_user}}/{{cookiecutter.app_name}}"
-{% elif cookiecutter.docker_registry == "github" %}
-IMAGE_NAME := "docker.pkg.github.com/{{cookiecutter.docker_user}}/{{cookiecutter.app_name}}/{{cookiecutter.app_name}}"
-{% endif %}
+IMAGE_NAME := "{{cookiecutter.app_name}}"
 
 default: test
 
@@ -20,37 +16,20 @@ help:
 	@echo
 	@echo 'Usage:'
 	@echo '    make build           Compile the project.'
-	@echo '    make get-deps        runs dep ensure, mostly used for ci.'
-	{% if cookiecutter.use_docker == "y" %}@echo '    make build-alpine    Compile optimized for alpine linux.'
 	@echo '    make package         Build final docker image with just the go binary inside'
-	@echo '    make tag             Tag image created by package with latest, git commit and version'
 	@echo '    make test            Run tests on a compiled project.'
-	@echo '    make push            Push tagged images to registry'{% endif %}
 	@echo '    make clean           Clean the directory tree.'
 	@echo
-{% if cookiecutter.use_docker == "y" %}
-build:
-	@echo "building ${BIN_NAME} ${VERSION}"
-	@echo "GOPATH=${GOPATH}"
-	go build -ldflags "-X github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}/version.BuildDate=${BUILD_DATE}" -o bin/${BIN_NAME}
+
+package:
 	@echo "building image ${BIN_NAME} ${VERSION} $(GIT_COMMIT)"
 	docker build --build-arg VERSION=${VERSION} --build-arg GIT_COMMIT=$(GIT_COMMIT) -t $(IMAGE_NAME):local .
 	@echo "Tagging: latest ${VERSION} $(GIT_COMMIT)"
 	docker tag $(IMAGE_NAME):local $(IMAGE_NAME):$(GIT_COMMIT)
 	docker tag $(IMAGE_NAME):local $(IMAGE_NAME):${VERSION}
 	docker tag $(IMAGE_NAME):local $(IMAGE_NAME):latest
-	@echo "Pushing docker image to registry: latest ${VERSION} $(GIT_COMMIT)"
-	docker push $(IMAGE_NAME):$(GIT_COMMIT)
-	docker push $(IMAGE_NAME):${VERSION}
-	docker push $(IMAGE_NAME):latest
-{% endif %}
 
-
-get-deps:
-	dep ensure
-
-
-compile:
+build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
 	go build -ldflags "-X github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}/version.BuildDate=${BUILD_DATE}" -o bin/${BIN_NAME}
