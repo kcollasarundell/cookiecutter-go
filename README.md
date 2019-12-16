@@ -1,5 +1,7 @@
 # cookiecutter-golang
 
+Personal fork of Lacion's great cookiecutter go thing
+
 [![Build Status](https://travis-ci.org/lacion/cookiecutter-golang.svg?branch=master)](https://travis-ci.org/lacion/cookiecutter-golang)
 
 Powered by [Cookiecutter](https://github.com/audreyr/cookiecutter), Cookiecutter Golang is a framework for jumpstarting production-ready go projects quickly.
