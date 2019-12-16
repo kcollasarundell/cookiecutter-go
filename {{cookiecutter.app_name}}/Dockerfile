@@ -11,10 +11,10 @@ ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 ADD . /go/src/github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}
 WORKDIR /go/src/github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}
-# Create appuser
-RUN adduser -D -g '' {{cookiecutter.app_name}}
+
 RUN apk --update add ca-certificates
 RUN make build
+RUN ./build.sh
 
 # Final Stage
 FROM {{cookiecutter.docker_image}}
@@ -29,8 +29,8 @@ LABEL VERSION=$VERSION
 ENV PATH=$PATH:/opt/{{cookiecutter.app_name}}/bin
 
 WORKDIR /opt/{{cookiecutter.app_name}}/bin
-COPY --from=build-stage /etc/passwd /etc
-COPY --from=build-stage /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs
+COPY docker/passwd /etc/passwd
+COPY --from=build-stage /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build-stage /go/src/github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}/bin/{{cookiecutter.app_name}} /opt/{{cookiecutter.app_name}}/bin/
 RUN chmod +x /opt/{{cookiecutter.app_name}}/bin/{{cookiecutter.app_name}}
 
