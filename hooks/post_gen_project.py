@@ -35,7 +35,6 @@ def init_git():
         git = Popen(command, cwd=PROJECT_DIRECTORY)
         git.wait()
 
-
 def remove_docker_files():
     """
     Removes files needed for docker if it isn't going to be used
