@@ -1,6 +1,7 @@
 {
     "full_name": "Kevin Collas-Arundell",
-    "github_username": "kcollasarundell",
+    "git_user": "kcollasarundell",
+    "git_domain": "github.com",
     "app_name": "mygolangproject",
     "project_short_description": "A Golang project.",
     "docker_registry": [

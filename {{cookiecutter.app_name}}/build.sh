@@ -11,4 +11,4 @@ GIT_DIRTY=$(test -n "`git status --porcelain`" && echo "+CHANGES" || true)
 BUILD_DATE=$(date '+%Y-%m-%d-%H:%M:%S')
 
 IMAGE_NAME="{{cookiecutter.app_name}}"
-go build -ldflags "-X github.com/kcollasarundell/{{cookiecutter.app_name}}/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/kcollasarundell/bcg-notifier/version.BuildDate=${BUILD_DATE}" -o bin/${BIN_NAME}
+go build -ldflags "-X {{cookiecutter.git_domain}}/{{cookiecutter.git_user}}/{{cookiecutter.app_name}}/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X {{cookiecutter.git_domain}}/{{cookiecutter.git_user}}/{{cookiecutter.app_name}}/version.BuildDate=${BUILD_DATE}" -o bin/${BIN_NAME}
