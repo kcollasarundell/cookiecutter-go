@@ -15,7 +15,7 @@ RE_OBJ = re.compile(PATTERN)
 def context():
     return {
         'full_name': 'Test Author',
-        'github_username': 'lacion',
+        'git_user': 'lacion',
         'app_name': 'MyTestProject',
         'project_short_description': 'A short description of the project.',
         "docker_hub_username": "lacion",

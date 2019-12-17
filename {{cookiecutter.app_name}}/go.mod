@@ -1,4 +1,4 @@
-module github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}
+module {{cookiecutter.git_domain }}/{{ cookiecutter.git_user}}/{{cookiecutter.app_name}}
 
 require (
 	{% if cookiecutter.use_logrus_logging == "y" -%}github.com/sirupsen/logrus v1.4.1{%- endif %}
