@@ -13,7 +13,6 @@ ADD . /go/src/{{cookiecutter.git_domain }}/{{ cookiecutter.git_user}}/{{cookiecu
 WORKDIR /go/src/{{cookiecutter.git_domain }}/{{ cookiecutter.git_user}}/{{cookiecutter.app_name}}
 
 RUN apk --update add ca-certificates
-RUN make build
 RUN ./build.sh
 
 # Final Stage
