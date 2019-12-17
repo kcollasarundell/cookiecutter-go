@@ -12,7 +12,7 @@ ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 ADD . /go/src/{{cookiecutter.git_domain }}/{{ cookiecutter.git_user}}/{{cookiecutter.app_name}}
 WORKDIR /go/src/{{cookiecutter.git_domain }}/{{ cookiecutter.git_user}}/{{cookiecutter.app_name}}
 
-RUN apk --update add ca-certificates
+RUN apk --update add ca-certificates git
 RUN ./build.sh
 
 # Final Stage
@@ -31,7 +31,6 @@ WORKDIR /opt/{{cookiecutter.app_name}}/bin
 COPY docker/passwd /etc/passwd
 COPY --from=build-stage /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build-stage /go/src/{{cookiecutter.git_domain }}/{{ cookiecutter.git_user}}/{{cookiecutter.app_name}}/bin/{{cookiecutter.app_name}} /opt/{{cookiecutter.app_name}}/bin/
-RUN chmod +x /opt/{{cookiecutter.app_name}}/bin/{{cookiecutter.app_name}}
 
 USER {{cookiecutter.app_name}}
 
